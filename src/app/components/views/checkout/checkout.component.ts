@@ -1,7 +1,7 @@
 import { AnimateTimings } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { finalOrder } from 'src/app/interfaces/finalOrder';
 import { shipping } from 'src/app/interfaces/shipping';
 import { AuthService } from 'src/app/services/auth.service';
@@ -21,7 +21,7 @@ export class CheckoutComponent implements OnInit {
   public order:any;
 
   orderData = new FormGroup({
-    first_name: new FormControl,
+    first_name: new FormControl("",[Validators.required]),
     last_name: new FormControl,
     email: new FormControl,
     mobile: new FormControl,
@@ -94,11 +94,17 @@ export class CheckoutComponent implements OnInit {
     fo.shipping = 10;
     fo.total_price = this.total;
     fo.user_id = this.data._id;
-    fo.order_date = "18/10/2022";
+    fo.order_date = "2022-10-18";
     fo.order_details = this.order;
     fo.shipping_info = shipping_information;
 
-    this.http.post(`${environment.APIUrl}/orders?token=${this.data.token}`, fo);    
+    this.http.post(`${environment.APIUrl}orders?token=${this.data.token}`, fo).subscribe(function(data){
+      console.log(data);
+      
+    }, function(err){
+      console.log(err);
+      
+    });    
   }
 
 
