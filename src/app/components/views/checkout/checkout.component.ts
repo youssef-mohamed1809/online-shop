@@ -6,6 +6,7 @@ import { finalOrder } from 'src/app/interfaces/finalOrder';
 import { shipping } from 'src/app/interfaces/shipping';
 import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -22,20 +23,21 @@ export class CheckoutComponent implements OnInit {
 
   orderData = new FormGroup({
     first_name: new FormControl("",[Validators.required]),
-    last_name: new FormControl,
-    email: new FormControl,
-    mobile: new FormControl,
-    address1: new FormControl,
-    address2: new FormControl,
-    country: new FormControl,
-    city: new FormControl,
-    state: new FormControl,
-    zip: new FormControl
+    last_name: new FormControl("", [Validators.required]),
+    email: new FormControl("", [Validators.required, Validators.email]),
+    mobile: new FormControl("", [Validators.required]),
+    address1: new FormControl("", [Validators.required]),
+    address2: new FormControl("",[]),
+    country: new FormControl("", [Validators.required]),
+    city: new FormControl("", [Validators.required]),
+    state: new FormControl("", [Validators.required]),
+    zip: new FormControl("", [Validators.required])
   })
   
   constructor(
     public authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) { 
 
    }
@@ -104,7 +106,11 @@ export class CheckoutComponent implements OnInit {
     }, function(err){
       console.log(err);
       
-    });    
+    });
+    alert("Order placed successfuly")
+    this.router.navigate(['']);
+
+
   }
 
 
